@@ -1,7 +1,0 @@
-oidc-provider WARNING: Unsupported Node.js runtime version. Use ^12.19.0, ^14.15.0, or ^16.13.0
-2026-01-06T12:09:52.189Z [Components.js] [32minfo[39m: Initiating component discovery from /Users/mohamed.ragab/node_modules/@solid/community-server/
-2026-01-06T12:09:52.302Z [Components.js] [32minfo[39m: Discovered 168 component packages within 604 packages
-2026-01-06T12:09:52.303Z [Components.js] [32minfo[39m: Initiating component loading
-2026-01-06T12:09:53.583Z [Components.js] [32minfo[39m: Registered 842 components
-2026-01-06T12:09:53.583Z [Components.js] [32minfo[39m: Loaded configs
-2026-01-06T12:09:53.878Z [ServerInitializer] {Primary} [32minfo[39m: Listening to server at http://localhost:3002/
