@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 json_file_path = PROJECT_ROOT / "data" / "experiment_data" / "webid_structure.json"
 source_dir = PROJECT_ROOT / "data" / "source_files"
 output_dir = PROJECT_ROOT / "data" / "experiment_Index"
-jar_file = PROJECT_ROOT / "jars" / "Webid-Specific-Indexer.jar"
+jar_file = PROJECT_ROOT / "jars" / "WebID-Specific-Indexer.jar"
 
 # Ensure the JSON file exists
 if not json_file_path.exists():
