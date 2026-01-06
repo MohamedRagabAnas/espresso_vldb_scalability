@@ -5,7 +5,12 @@ import random
 from pathlib import Path
 
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+def load_config():
+    with open(PROJECT_ROOT / "src" / "config" / "config.json", "r") as f:
+        return json.load(f)
+    
 def normalize_index_filename(filename: str) -> str:
     """
     Normalize index filenames by removing '_' and '.' from the stem,
@@ -23,7 +28,7 @@ def normalize_index_filename(filename: str) -> str:
     )
     return normalized_stem + p.suffix
 
-def distribute_indexes(experiment_base_dir, index_output_dir):
+def distribute_indexes(experiment_base_dir, index_output_dir, server_host):
     """
     Move indexes from WebID_indexer output to their appropriate locations
     and create overlaynetwork.csv for server-level index distribution
@@ -32,8 +37,8 @@ def distribute_indexes(experiment_base_dir, index_output_dir):
         experiment_base_dir: Base directory of the experiment (where servers are located)
         index_output_dir: Directory where WebID_indexer generated the indexes
     """
-    experiment_base = Path(experiment_base_dir)
-    index_output = Path(index_output_dir)
+    experiment_base = experiment_base_dir
+    index_output = index_output_dir
     
     # Load webid info to get all agent webids
     webid_info_path = experiment_base / "webid_info.json"
@@ -180,7 +185,9 @@ def distribute_indexes(experiment_base_dir, index_output_dir):
                 
                 # Add to overlay CSV
                 # writer.writerow([entry['webid'], str(dest_path.resolve())])
-                host_port = f"localhost:{3000 + int(dest_server_id)}"
+                # host_port = f"localhost:{3000 + int(dest_server_id)}"
+                host_port = f"{server_host}:{3000 + int(dest_server_id)}"
+
 
                 normalized_webid = normalize_webid(entry['webid'])
                 writer.writerow([
@@ -250,11 +257,17 @@ def normalize_webid(webid: str) -> str:
 
 
 def main():
-    # Configuration - adjust these paths as needed, (1) Where your servers are located (2) Where WebID_indexer generated indexes
-    experiment_base_dir = "../data/experiment_data"  
-    index_output_dir = "../data/experiment_Index"    
+    '''Configuration - adjust these paths as needed, 
+    (1) Where your servers are located 
+    (2) Where WebID_indexer generated indexes 
+    '''
+    config = load_config()
+
     
-    distribute_indexes(experiment_base_dir, index_output_dir)
+    experiment_base_dir = PROJECT_ROOT / "data" / "experiment_data"
+    index_output_dir = PROJECT_ROOT / "data" / "experiment_Index"
+    
+    distribute_indexes(experiment_base_dir, index_output_dir, config["server_host"])
 
 if __name__ == "__main__":
     main()

@@ -9,6 +9,13 @@ from webid_generator import WebIDGenerator
 from distributions import DistributionStrategies
 from tqdm import tqdm
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+def load_config():
+    with open(PROJECT_ROOT / "src" / "config" / "config.json", "r") as f:
+        return json.load(f)
+
 def imagineaclspecial(files, social_agents, file_label='medical'):
     access_control = {}
     
@@ -105,7 +112,7 @@ def create_webid_structure(access_control):
 #     return metaindex_path
 
 
-def create_server_metaindex(base_dir, server_id, pod_count):
+def create_server_metaindex(base_dir, server_id, pod_count,config):
     """
     Create a metaindex.csv file for a server listing all pod espressoindex URLs
     exposed by that server.
@@ -125,8 +132,10 @@ def create_server_metaindex(base_dir, server_id, pod_count):
 
     # server1 -> 3001, server2 -> 3002, ...
     port = 3000 + server_id
-    base_url = f"http://localhost:{port}"
+    # base_url = f"http://localhost:{port}"
+    base_url = f"http://{config['server_host']}:{port}"
 
+    
     with open(metaindex_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
 
@@ -145,7 +154,7 @@ def create_ltoverlay_servers_csv(base_dir, num_servers, starting_port=3001):
         num_servers: Number of servers to include.
         starting_port: Port number of server1 (default 3001). Subsequent servers increment by 1.
     """
-    csv_path = Path(base_dir) / "LTOVERLAYSERVERS.csv"
+    csv_path = base_dir / "LTOVERLAYSERVERS.csv"
     
     with open(csv_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
@@ -160,12 +169,18 @@ def create_ltoverlay_servers_csv(base_dir, num_servers, starting_port=3001):
 
 def distribute_files(config):
     """Distribute files from source directory to pods based on configuration"""
-    base_dir = Path(config["base_directory"])
-    source_dir = Path(config["source_directory"])
+    # base_dir = Path(config["base_directory"])
+    base_dir = PROJECT_ROOT / config["base_directory"]
     
-    # If source_dir is relative, make it relative to the current working directory
-    if not source_dir.is_absolute():
-        source_dir = Path.cwd() / source_dir
+
+    # source_dir = Path(config["source_directory"])
+    source_dir = PROJECT_ROOT / config["source_directory"]
+    
+
+    
+    # # If source_dir is relative, make it relative to the current working directory
+    # if not source_dir.is_absolute():
+    #     source_dir = Path.cwd() / source_dir
     
     base_dir.mkdir(exist_ok=True, parents=True)
     
@@ -287,7 +302,7 @@ def distribute_files(config):
                 files_distributed += 1
         
         # Create server-level metaindex.csv after creating all pods
-        metaindex_path = create_server_metaindex(base_dir, server_id, pod_count)
+        metaindex_path = create_server_metaindex(base_dir, server_id, pod_count,config=config)
         server_metaindexes[server_id] = str(metaindex_path)
     
     # Save access control data
@@ -338,7 +353,5 @@ def distribute_files(config):
     return access_control, webid_structure
 
 if __name__ == "__main__":
-    with open('./config/config.json', 'r') as f:
-        config = json.load(f)
-    
+    config = load_config()
     distribute_files(config)
