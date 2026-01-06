@@ -22,10 +22,14 @@ LOG_DIR = PROJECT_ROOT / "solid-logs"
 # Helpers
 # =========================
 def discover_servers(root):
+    def server_number(name):
+        return int(name.replace("server", ""))
+    
     return sorted(
-        d for d in os.listdir(root)
-        if os.path.isdir(os.path.join(root, d)) and d.startswith("server")
+        (d for d in os.listdir(root) if os.path.isdir(os.path.join(root, d)) and d.startswith("server")),
+        key=server_number
     )
+
 
 def build_command(port, root_path):
     base_url = f"{BASE_URL_HOST}:{port}"
