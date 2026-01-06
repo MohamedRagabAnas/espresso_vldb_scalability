@@ -2,4 +2,5 @@
 data/
 __pycache__/
 solid-logs/
+src/solid-logs/
 .DS_Store
