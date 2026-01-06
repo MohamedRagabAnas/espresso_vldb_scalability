@@ -30,9 +30,11 @@ with open(json_file_path, "r", encoding="utf-8") as f:
 # Run the Java program with the JSON file path
 result = subprocess.run(
     ["java", "-jar", str(jar_file), str(json_file_path), str(source_dir), str(output_dir)],
-    capture_output=True,
-    text=True
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    universal_newlines=True  
 )
+
 
 # Print the output from the Java program
 print("STDOUT:")
