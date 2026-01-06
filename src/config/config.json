@@ -1,0 +1,16 @@
+{
+    "base_directory": "/Users/mohamed.ragab/espresso-scalability/data/experiment_data",
+    "index_directory": "/Users/mohamed.ragab/espresso-scalability/data/experiment_Index",
+    "source_directory": "/Users/mohamed.ragab/espresso-scalability/data/source_files",
+    "num_servers": 5,
+    "pods_per_server": 5,
+    "files_per_pod": 1,
+    "indexer_jar": "/Users/mohamed.ragab/espresso-scalability/jars/Indexer.jar",
+    "number_of_webids": 5,
+    "pod_distribution_strategy": "zipf",
+    "file_distribution_strategy": "uniform",
+    "pareto_alpha": 1.5,
+    "zipf_alpha": 1.2,
+    "min_pods_per_server": 1,
+    "min_files_per_pod": 1
+}

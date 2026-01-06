@@ -1,0 +1,6 @@
+Sample content for experiment_data/server2/pod2/file0002020008.dat
+This is a test file for Lucene indexing scalability experiment.
+==================================================
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
