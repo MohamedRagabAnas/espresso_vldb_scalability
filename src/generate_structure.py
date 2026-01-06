@@ -7,7 +7,7 @@ import csv
 from pathlib import Path
 from webid_generator import WebIDGenerator
 from distributions import DistributionStrategies
-from tqdm import tqdm
+# from tqdm import tqdm
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
